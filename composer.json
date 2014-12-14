@@ -1,0 +1,23 @@
+{
+	"name": "willmorgan/cropperfield-videoadapter",
+	"description": "Crop video frames with this adapter (powered by PHP-FFMpeg)",
+	"license": "BSD-3-Clause",
+	"keywords": ["cropperfield", "adapter", "video", "ffmpeg", "silverstripe", "crop", "image", "frame"],
+	"autoload": {
+		"psr-4": {
+			"CropperVideoAdapter\\": "code/"
+		}
+	},
+	"require": {
+		"php-ffmpeg/php-ffmpeg": "0.5.1",
+		"silverstripe/framework": "~3.1",
+		"willmorgan/silverstripe-cropperfield": "~0.3@dev"
+	},
+	"authors": [
+		{
+			"name": "Will Morgan",
+			"homepage": "http://willmorgan.co.uk",
+			"role": "Developer"
+		}
+	]
+}
