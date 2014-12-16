@@ -50,9 +50,13 @@ class VideoAdapter extends \CropperField\Adapter\GenericField {
 		);
 		// Save the frame as a JPEG and create a file around it
 		list($label, $extension) = explode('.', basename($videoPath));
-		$frameFile = ASSETS_PATH . '/' . $label . '.jpg';
-		$frame->save($frameFile);
-		$image->Filename = $frameFile;
+		$frameFile = '/' . $label . '.jpg';
+
+		// Absolute path needed for saving of the source image
+		$frame->save(ASSETS_PATH . $frameFile);
+
+		// Relative path needed for the file object
+		$image->Filename = ASSETS_DIR . $frameFile;
 		$image->write();
 		return $image;
 	}
