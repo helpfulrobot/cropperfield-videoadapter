@@ -5,7 +5,7 @@
 	"keywords": ["cropperfield", "adapter", "video", "ffmpeg", "silverstripe", "crop", "image", "frame"],
 	"autoload": {
 		"psr-4": {
-			"CropperVideoAdapter\\": "code/"
+			"CropperField\\VideoAdapter\\": "VideoAdapter/"
 		}
 	},
 	"require": {

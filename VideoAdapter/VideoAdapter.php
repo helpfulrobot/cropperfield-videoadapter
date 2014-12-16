@@ -1,13 +1,24 @@
-<?php
+<?php namespace CropperField\VideoAdapter;
+
+/**
+ * VideoAdapter
+ * @author @willmorgan
+ */
 
 use FFMpeg\FFMpeg;
+
+use Image;
+use File;
+
+use Monolog\Logger as Logger;
+use Monolog\Handler\ErrorLogHandler as ErrorHandler;
 
 class VideoAdapter extends \CropperField\Adapter\GenericField {
 
 	public function getFile() {
 		$loadedFile = $this->getFormField()->getItems()->first();
 		if(!$loadedFile) {
-			return new \File();
+			return new File();
 		}
 		return $loadedFile;
 	}
@@ -19,12 +30,12 @@ class VideoAdapter extends \CropperField\Adapter\GenericField {
 		$image = new Image();
 		$video = $this->getFile();
 		$videoPath = $video->getFullPath();
-		if(!$video instanceof \File) {
+		if(!$video instanceof File) {
 			throw new UploadField_BadFileTypeException;
 		}
 		// FFMpeg information shall be pushed to the PHP system error_log
-		$logger = new \Monolog\Logger('FFMpegErrorLogger');
-		$logger->pushHandler(new \Monolog\Handler\ErrorLogHandler());
+		$logger = new Logger('FFMpegErrorLogger');
+		$logger->pushHandler(new ErrorHandler());
 
 		// Create the FFMpeg instance and open the file
 		$ffmpeg = \FFMpeg\FFMpeg::create(array(), $logger);
