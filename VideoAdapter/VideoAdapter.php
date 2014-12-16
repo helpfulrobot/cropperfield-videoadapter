@@ -24,6 +24,21 @@ class VideoAdapter extends \CropperField\Adapter\GenericField {
 	}
 
 	/**
+	 * @param string $videoPath FULL path to the video
+	 * @return \FFMpeg\FFmpeg
+	 */
+	protected function openVideo() {
+		$videoPath = $this->getFile()->getFullPath();
+		// FFMpeg information shall be pushed to the PHP system error_log
+		$logger = new Logger('FFMpegErrorLogger');
+		$logger->pushHandler(new ErrorHandler());
+
+		// Create the FFMpeg instance and open the file
+		$ffmpeg = \FFMpeg\FFMpeg::create(array(), $logger);
+		return $ffmpeg->open($videoPath);
+	}
+
+	/**
 	 * @return \Image
 	 */
 	public function getSourceImage() {
@@ -33,14 +48,8 @@ class VideoAdapter extends \CropperField\Adapter\GenericField {
 		if(!$video instanceof File) {
 			throw new UploadField_BadFileTypeException;
 		}
-		// FFMpeg information shall be pushed to the PHP system error_log
-		$logger = new Logger('FFMpegErrorLogger');
-		$logger->pushHandler(new ErrorHandler());
-
-		// Create the FFMpeg instance and open the file
-		$ffmpeg = \FFMpeg\FFMpeg::create(array(), $logger);
 		try {
-			$video = $ffmpeg->open($videoPath);
+			$video = $this->openVideo($videoPath);
 		}
 		catch(\FFMpeg\Exception\RuntimeException $e) {
 			return $image;
